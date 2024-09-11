@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapHandler : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private Sprite Path;
 
     public Vector2Int size;
 
@@ -12,13 +12,14 @@ public class MapHandler : MonoBehaviour
 
     void Start()
     {
-        List<Vector2> EnemiePath = new List<Vector2>();
+        List<Vector2Int> EnemyPath = new List<Vector2Int>();
         for (int i = 0; i < size.x; i++)
         {
-            vector2s.Add(new(5, i));
+            EnemyPath.Add(new(5, i));
         }
 
-        LoadGrid();       
+        LoadGrid();
+        LoadEnemyPath(EnemyPath);
     }
 
     private void LoadGrid()
@@ -38,5 +39,13 @@ public class MapHandler : MonoBehaviour
         }
     }
 
-
+    private void LoadEnemyPath(List<Vector2Int> path)
+    {
+        foreach (Vector2Int pos in path)
+        {
+            GameObject cell = grid[pos.x][pos.y];
+            cell.GetComponent<SpriteRenderer>().sprite = Path;
+            cell.GetComponent<Cell>().occupied = true;
+        }
+    }
 }
