@@ -6,25 +6,27 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private GameObject hotBar;
     [SerializeField] private GameObject tileOutline;
 
-    private GameObject tower; 
-    private MapHandler mapHandler;
-
+    private GameObject _tower; 
+    private MapHandler _mapHandler;
+    private Camera _camera;
+    
     private void Start()
     {
         GameObject map = GameObject.FindGameObjectWithTag("Map"); 
-        mapHandler = map.GetComponent<MapHandler>(); 
+        _mapHandler = map.GetComponent<MapHandler>(); 
+        _camera = Camera.main;
     }
 
     private void Update()
     {
-        if (tower != null)
+        if (_tower)
         {
             tileOutline.SetActive(true);
             hotBar.SetActive(false);
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+            Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition); 
             mousePos.z = -1f;
-            tower.transform.position = mousePos;
+            _tower.transform.position = mousePos;
 
             HandleMouseClick(); 
         }
@@ -37,26 +39,22 @@ public class UIHandler : MonoBehaviour
 
     private void HandleMouseClick()
     {
-        if (Input.GetMouseButtonDown(0)) // On left mouse click
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-            Vector3 closestCellPos = mapHandler.GetClosestCell(mousePos, out Cell cell); 
+        if (!Input.GetMouseButtonDown(0)) return;
+        Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition); 
+        Vector3 closestCellPos = _mapHandler.GetClosestCell(mousePos, out Cell cell);
 
-            if (cell != null && !cell.occupied) 
-            {
-                tower.transform.position = new Vector3(closestCellPos.x, closestCellPos.y, -1f); 
-                cell.occupied = true; 
-                tower = null; 
-            }
-        }
+        if (!cell || cell.occupied) return;
+        _tower.transform.position = new Vector3(closestCellPos.x, closestCellPos.y, -1f); 
+        cell.occupied = true; 
+        _tower = null;
     }
 
     public void CreateTower(int towerIndex)
     {
-        if (tower != null) 
+        if (_tower != null) 
         {
-            Destroy(tower);
+            Destroy(_tower);
         }
-        tower = Instantiate(towers[towerIndex]); 
+        _tower = Instantiate(towers[towerIndex]); 
     }
 }

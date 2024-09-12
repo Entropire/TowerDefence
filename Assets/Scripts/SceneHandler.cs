@@ -1,10 +1,10 @@
-    using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneHandler : MonoBehaviour
 {
     [SerializeField] private GameObject loadedMenu;
-
+    
     public void LoadMenu(GameObject menu)
     {
         if(loadedMenu != null)
