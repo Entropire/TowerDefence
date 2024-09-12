@@ -71,7 +71,7 @@ public class MapHandler : MonoBehaviour
                 }
             }
         }
-
+        
         return closestPos; 
     }
 }
