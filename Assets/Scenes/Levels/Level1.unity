@@ -1317,8 +1317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 7870307707254223805, guid: ad7958a175f2f3a4191c1c2d4eeedf7a, type: 3}
-  Path: {fileID: 21300000, guid: bc57301338ec0ca42a0d79c44f0e252e, type: 3}
+  path: {fileID: 21300000, guid: bc57301338ec0ca42a0d79c44f0e252e, type: 3}
   size: {x: 18, y: 10}
+  enemyPath: []
 --- !u!1 &998118579
 GameObject:
   m_ObjectHideFlags: 0

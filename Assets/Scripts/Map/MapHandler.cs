@@ -5,15 +5,16 @@ using UnityEngine;
 public class MapHandler : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] private Sprite path;
+    public Sprite path;
 
     public Vector2Int size;
 
-    private GameObject[][] _grid; 
+    private GameObject[][] _grid;
+    public List<Vector2Int> enemyPath;
 
     void Start()
     {
-        List<Vector2Int> enemyPath = new List<Vector2Int>();
+        enemyPath = new List<Vector2Int>();
 
         for (int i = 0; i < size.x; i++)
         {
@@ -21,7 +22,7 @@ public class MapHandler : MonoBehaviour
         }
 
         LoadGrid(); 
-        LoadEnemyPath(enemyPath); 
+        LoadEnemyPath(); 
     }
 
     private void LoadGrid()
@@ -41,11 +42,11 @@ public class MapHandler : MonoBehaviour
         }
     }
 
-    private void LoadEnemyPath(List<Vector2Int> enemyPath)
+    private void LoadEnemyPath()
     {
         foreach (var cell in enemyPath.Select(pos => _grid[pos.y][pos.x]))
         {
-            cell.GetComponent<SpriteRenderer>().sprite = this.path;
+            cell.GetComponent<SpriteRenderer>().sprite = path;
             cell.GetComponent<Cell>().occupied = true;
         }
     }
