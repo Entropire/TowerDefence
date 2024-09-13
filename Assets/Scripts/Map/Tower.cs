@@ -10,18 +10,13 @@ public class Tower : MonoBehaviour
     private float timer;
     private MapHandler mapHandler;
     private int bulletSpeed = 2;
-    private int enemySpeed = 1;
+    private float enemySpeed = 1f;
     private Vector2 interceptionPos;
     
     private void Start()
     {
         enemies = new List<GameObject>();
-        GameObject gameObject = new GameObject();
-        
         mapHandler = GameObject.Find("Map").GetComponent<MapHandler>();
-        
-        gameObject.transform.position = new Vector3(0.5f, 5.5f, 0);
-        enemies.Add(gameObject);
     }
 
     private void Update()
@@ -29,17 +24,20 @@ public class Tower : MonoBehaviour
         if (timer >= shootCooldown)
         {
             timer = 0f;
-            int closestPointIndex = GetClosestPointIndex();
+            if (enemies.Count > 0)
+            {
+                int closestPointIndex = GetClosestPointIndex();
             
-            Vector2 interceptionPosLocalSpace = mapHandler.enemyPath[closestPointIndex + 1];
+                Vector2 interceptionPosLocalSpace = mapHandler.enemyPath[closestPointIndex + 1];
 
-            interceptionPos = new(interceptionPosLocalSpace.x - 8.5f, interceptionPosLocalSpace.y - 4.5f);
+                interceptionPos = new(interceptionPosLocalSpace.x - 8.5f, interceptionPosLocalSpace.y - 4.5f);
             
-            float distance = Vector3.Distance(interceptionPos, transform.position);
+                float distance = Vector3.Distance(interceptionPos, transform.position);
             
-            float timeTillInterception = enemySpeed - (distance / bulletSpeed);
+                float timeTillInterception = enemySpeed - (distance / bulletSpeed);
             
-            Invoke("SpawnBullet", timeTillInterception / 1000f);
+                Invoke("SpawnBullet", timeTillInterception / 1000f);
+            }
         }
         
         timer += Time.deltaTime;
@@ -63,16 +61,19 @@ public class Tower : MonoBehaviour
         int i = 0;
         foreach (Vector2 vec in mapHandler.enemyPath)
         {
-            float distance = Vector2.Distance(vec, enemies[0].transform.position);
+            Vector3 worldPos = new Vector3(vec.x - 8.5f, vec.y - 4.5f);
+            float distance = Vector2.Distance(worldPos, enemies[0].transform.position);
+            
+            Debug.Log($"{i}: " + distance);
             
             if(distance < closestDistance)
             {
                 closestDistance = distance;
                 index = i; 
             }
-
             i++;
         }
+        
         return index;
     }
 
