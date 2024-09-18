@@ -12,9 +12,9 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mapHandler = GameObject.Find("Map").GetComponent<MapHandler>();
 
-        transform.position = new Vector2(mapHandler.enemyPath[pathIndex].x - 8.5f, mapHandler.enemyPath[pathIndex].y - 4.5f);
+        transform.position = new Vector2(mapHandler.enemyPath[pathIndex].transform.position.x - 8.5f, mapHandler.enemyPath[pathIndex].transform.position.y - 4.5f);
         pathIndex++;
-        target = new Vector2(mapHandler.enemyPath[pathIndex].x - 8.5f, mapHandler.enemyPath[pathIndex].y - 4.5f);
+        target = new Vector2(mapHandler.enemyPath[pathIndex].transform.position.x - 8.5f, mapHandler.enemyPath[pathIndex].transform.position.y - 4.5f);
     }
     
     void Update()
@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
         else if ((Vector2)transform.position == target)
         {
             pathIndex++;
-            target = new Vector2(mapHandler.enemyPath[pathIndex].x - 8.5f, mapHandler.enemyPath[pathIndex].y - 4.5f);
+            target = new Vector2(mapHandler.enemyPath[pathIndex].transform.position.x - 8.5f, mapHandler.enemyPath[pathIndex].transform.position.y - 4.5f);
         }
     }
 }

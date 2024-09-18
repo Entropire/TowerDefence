@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
@@ -28,15 +29,15 @@ public class Tower : MonoBehaviour
             {
                 int closestPointIndex = GetClosestPointIndex();
             
-                Vector2 interceptionPosLocalSpace = mapHandler.enemyPath[closestPointIndex + 1];
+                Path interceptionPosLocalSpace = mapHandler.enemyPath[closestPointIndex + 1];
 
-                interceptionPos = new(interceptionPosLocalSpace.x - 8.5f, interceptionPosLocalSpace.y - 4.5f);
+                interceptionPos = new(interceptionPosLocalSpace.transform.position.x - 8.5f, interceptionPosLocalSpace.transform.position.y - 4.5f);
+                
+                
+                
+                //interceptionPos +=
             
-                float distance = Vector3.Distance(interceptionPos, transform.position);
-            
-                float timeTillInterception = enemySpeed - (distance / bulletSpeed);
-            
-                Invoke("SpawnBullet", timeTillInterception / 1000f);
+                //Invoke("SpawnBullet", timeTillInterception / 1000f);
             }
         }
         
@@ -59,12 +60,10 @@ public class Tower : MonoBehaviour
         int index = 0;
         
         int i = 0;
-        foreach (Vector2 vec in mapHandler.enemyPath)
+        foreach (Path path in mapHandler.enemyPath)
         {
-            Vector3 worldPos = new Vector3(vec.x - 8.5f, vec.y - 4.5f);
+            Vector3 worldPos = new Vector3(path.transform.position.x - 8.5f, path.transform.position.y - 4.5f);
             float distance = Vector2.Distance(worldPos, enemies[0].transform.position);
-            
-            Debug.Log($"{i}: " + distance);
             
             if(distance < closestDistance)
             {
