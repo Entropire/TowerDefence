@@ -1,24 +1,29 @@
+using Unity.Mathematics;
 using UnityEngine;
 
-public class Grid
+public class Grid : MonoBehaviour
 {
-    private Vector2 position;
+    [SerializeField] private Vector2Int cellSize;
     
     private Vector2Int gridSize;
-    private Vector2Int cellSize;
     private Cell[][] grid;
     private float cellSpacing;
-    
-    public Grid(Vector2 position, Vector2Int gridSize, Vector2Int cellSize)
+
+    private void Start()
     {
-        this.position = position;
-        this.gridSize = gridSize;
-        this.cellSize = cellSize;
+        TowerPlacing.OnTowerPlace += PlaceTower;
+        
+        float cameraHeight = 2f * Camera.main.orthographicSize;
+        float cameraWidth = cameraHeight * Camera.main.aspect;
+        
+        int gridHeight = (int)math.ceil(cameraHeight / cellSize.y);
+        int gridWidth = (int)math.ceil(cameraWidth / cellSize.x);
+        gridSize = new Vector2Int(gridWidth, gridHeight);
         
         GenerateGrid();
         cellSpacing = Vector2.Distance(grid[0][0].position, grid[0][1].position);
     }
-    
+
     private void GenerateGrid()
     {
         grid = new Cell[gridSize.y][];
@@ -29,13 +34,27 @@ public class Grid
 
             for (int x = 0; x < gridSize.x; x++)
             {
-                Vector2 cellPos = new Vector2(x - position.x, y - position.y);
+                Vector2 cellPos = new Vector2(transform.position.x + x + .5f, transform.position.y + y + .5f);
                 grid[y][x] = new Cell(cellPos, false);
             }
         }
     }
 
-    public Cell GetClosestCell(Vector2Int position)
+    private void PlaceTower(GameObject tower)
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        Cell cell = GetClosestCell(mousePos);
+
+        if (!cell.occupied)
+        {
+            cell.occupied = true;
+            cell.child = tower;
+            tower.transform.position = cell.position;
+        }
+    }
+
+    private Cell GetClosestCell(Vector2 position)
     {
         Cell closestCell = null;
         float closestDistance = float.MaxValue;
@@ -52,7 +71,7 @@ public class Grid
                     closestCell = grid[y][x];
                 }
 
-                if (closestDistance <= cellSpacing)
+                if (closestDistance <= cellSpacing / 2)
                 {
                     return closestCell;
                 }
