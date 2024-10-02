@@ -1,18 +1,21 @@
+using System;
+using DefaultNamespace;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    public static event Action<Vector2Int> OnCellClick;
+
+    [SerializeField] private EnemyPath enemyPath;
     [SerializeField] private Vector2Int cellSize;
     
     private Vector2Int gridSize;
-    private Cell[][] grid;
+    private CellData[][] grid;
     private float cellSpacing;
 
     private void Start()
     {
-        TowerPlacing.OnTowerPlace += PlaceTower;
-        
         float cameraHeight = 2f * Camera.main.orthographicSize;
         float cameraWidth = cameraHeight * Camera.main.aspect;
         
@@ -21,42 +24,38 @@ public class Grid : MonoBehaviour
         gridSize = new Vector2Int(gridWidth, gridHeight);
         
         GenerateGrid();
+        GenerateEnemyPath();
         cellSpacing = Vector2.Distance(grid[0][0].position, grid[0][1].position);
     }
 
     private void GenerateGrid()
     {
-        grid = new Cell[gridSize.y][];
+        grid = new CellData[gridSize.y][];
         
         for (int y = 0; y < gridSize.y; y++)
         {
-            grid[y] = new Cell[gridSize.x];
+            grid[y] = new CellData[gridSize.x];
 
             for (int x = 0; x < gridSize.x; x++)
             {
                 Vector2 cellPos = new Vector2(transform.position.x + x + .5f, transform.position.y + y + .5f);
-                grid[y][x] = new Cell(cellPos, false);
+                grid[y][x] = new CellData(cellPos, false);
             }
         }
     }
 
-    private void PlaceTower(GameObject tower)
+    private void GenerateEnemyPath()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
-        Cell cell = GetClosestCell(mousePos);
-
-        if (!cell.occupied)
+        foreach (var pathTile in enemyPath.path)
         {
+            CellData cell = grid[pathTile.y][pathTile.x];
             cell.occupied = true;
-            cell.child = tower;
-            tower.transform.position = cell.position;
         }
     }
 
-    private Cell GetClosestCell(Vector2 position)
+    public CellData GetClosestCell(Vector2 position)
     {
-        Cell closestCell = null;
+        CellData closestCellData = null;
         float closestDistance = float.MaxValue;
 
         for (int y = 0; y < gridSize.y; y++)
@@ -68,16 +67,15 @@ public class Grid : MonoBehaviour
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestCell = grid[y][x];
+                    closestCellData = grid[y][x];
                 }
 
                 if (closestDistance <= cellSpacing / 2)
                 {
-                    return closestCell;
+                    return closestCellData;
                 }
             }
         }
-        
-        return closestCell;
+        return closestCellData;
     }
 }
