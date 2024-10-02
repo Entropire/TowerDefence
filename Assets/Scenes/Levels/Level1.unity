@@ -2143,6 +2143,7 @@ GameObject:
   - component: {fileID: 927066264}
   - component: {fileID: 927066266}
   - component: {fileID: 927066265}
+  - component: {fileID: 927066267}
   m_Layer: 6
   m_Name: Map
   m_TagString: Map
@@ -2192,6 +2193,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPath: {fileID: 11400000, guid: a9df9a6482b7fb740a40518fbd74a898, type: 2}
   cellSize: {x: 1, y: 1}
+--- !u!114 &927066267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927066261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608eefff9dfcb3348ada7350858ed34d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPath: {fileID: 11400000, guid: a9df9a6482b7fb740a40518fbd74a898, type: 2}
+  enemies:
+  - {fileID: 5032913709606696014, guid: 24d04ecc18429074ea4fdedf8ba994e8, type: 3}
+  - {fileID: 5032913709606696014, guid: f7190d623259a654197eae7fb422e6f9, type: 3}
+  - {fileID: 5032913709606696014, guid: 61a2b89544c27c149bae7390e117a09d, type: 3}
+  - {fileID: 5032913709606696014, guid: 92502625e22f5a84fb1ca5b3d07d32cb, type: 3}
+  - {fileID: 5032913709606696014, guid: c41bfd0f73f36e241bc878b56b88eda8, type: 3}
 --- !u!1 &998118579
 GameObject:
   m_ObjectHideFlags: 0
