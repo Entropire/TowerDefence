@@ -1,6 +1,7 @@
 using System;
 using DefaultNamespace;
 using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
@@ -9,11 +10,13 @@ public class Grid : MonoBehaviour
 
     [SerializeField] private EnemyPath enemyPath;
     [SerializeField] private Vector2Int cellSize;
+    [SerializeField] private Texture2D[] textures;  // List of textures for the cells
+    [SerializeField] private SpriteRenderer spriteRenderer; 
     
-    private Vector2Int gridSize;
-    private CellData[][] grid;
     private float cellSpacing;
-
+    private CellData[][] grid;
+    private Vector2Int gridSize;
+    
     private void Start()
     {
         float cameraHeight = 2f * Camera.main.orthographicSize;
@@ -26,6 +29,9 @@ public class Grid : MonoBehaviour
         GenerateGrid();
         GenerateEnemyPath();
         cellSpacing = Vector2.Distance(grid[0][0].position, grid[0][1].position);
+        
+        MakeImagesReadeble();
+        RenderGrid();
     }
 
     private void GenerateGrid()
@@ -39,7 +45,7 @@ public class Grid : MonoBehaviour
             for (int x = 0; x < gridSize.x; x++)
             {
                 Vector2 cellPos = new Vector2(transform.position.x + x + .5f, transform.position.y + y + .5f);
-                grid[y][x] = new CellData(cellPos, false);
+                grid[y][x] = new CellData(cellPos, false, 0);
             }
         }
     }
@@ -50,6 +56,7 @@ public class Grid : MonoBehaviour
         {
             CellData cell = grid[pathTile.y][pathTile.x];
             cell.occupied = true;
+            cell.textureID = 1;
         }
     }
 
@@ -77,5 +84,60 @@ public class Grid : MonoBehaviour
             }
         }
         return closestCellData;
+    }
+
+    private void MakeImagesReadeble()
+    {
+        foreach (var texture in textures)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(texture);
+            TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(assetPath);
+            if (textureImporter != null)
+            {
+                textureImporter.isReadable = true;
+                AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+            }
+        }
+    }
+    
+    private void RenderGrid()
+    {
+        // Get the size of individual textures (assuming all are the same size)
+        int cellWidth = textures[0].width;
+        int cellHeight = textures[0].height;
+            
+        // Create a new combined texture with the size of the entire grid
+        Texture2D combinedTexture = new Texture2D(cellWidth * gridSize.x, cellHeight * gridSize.y);
+        
+        Debug.Log($"grass_image width: {textures[0].width}, grass_image height: {textures[0].height}, path_image width: {textures[0].width}, path_image height: {textures[0].height}");
+        
+        // Loop through the grid and place each texture at its correct position
+        for (int y = 0; y < gridSize.y; y++)
+        {
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                // Get the texture for the current grid cell based on textureID
+                Texture2D texture2D = textures[grid[y][x].textureID];
+
+                // Get the pixel data of the current texture
+                Color[] pixels = texture2D.GetPixels();
+
+                // Set the pixels in the correct position (adjust Y to match Unity's bottom-left origin)
+                combinedTexture.SetPixels(x * cellWidth, y * cellHeight, cellWidth, cellHeight, pixels);
+            }
+        }
+
+        // Apply the changes to the combined texture
+        combinedTexture.Apply();
+
+        Debug.Log($"Height: {combinedTexture.height}, Width: {combinedTexture.width}");
+            
+        // Create a new sprite from the combined texture
+        Sprite combinedSprite = Sprite.Create(combinedTexture, 
+            new Rect(0, 0, combinedTexture.width, combinedTexture.height), 
+            new Vector2(0.5f, 0.5f));
+
+        // Set the combined sprite to the sprite renderer
+        spriteRenderer.sprite = combinedSprite;
     }
 }

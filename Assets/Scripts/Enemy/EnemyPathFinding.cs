@@ -9,7 +9,7 @@ public class EnemyPathFinding : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector2(enemyPath.path[pathIndex].x - 8.5f, enemyPath.path[pathIndex].y - 4.5f);
+        transform.position = new Vector2(enemyPath.path[pathIndex].x - 9.5f, enemyPath.path[pathIndex].y - 4.5f);
         pathIndex++;
         target = new Vector2(enemyPath.path[pathIndex].x - 8.5f, enemyPath.path[pathIndex].y - 4.5f);
     }
