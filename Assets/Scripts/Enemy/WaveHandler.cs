@@ -12,11 +12,11 @@ public class WaveHandler : MonoBehaviour
     [SerializeField] private float[] enemyWeights; 
     [SerializeField] private int[] enemyUnlockIndexes;
     
-    [SerializeField]private List<GameObject> spawnedEnemies; 
-    [SerializeField]private int[] enemiesToSpawn; 
-    [SerializeField]private float waveMaxWeight,
+    private List<GameObject> spawnedEnemies; 
+    private int[] enemiesToSpawn; 
+    private float waveMaxWeight,
                   waveWeight = 0;
-    [SerializeField]private int unlocktEnemies,
+    private int unlocktEnemies,
                 waveIndex,
                 unlockEnemyWaveIndex;
     
@@ -24,7 +24,7 @@ public class WaveHandler : MonoBehaviour
     {
         spawnedEnemies = new List<GameObject>();
         
-        Enemy.onEnemyDeath += HandleEnemyDeath;
+        EnemyHealth.onEnemyDeath += HandleEnemyDeath;
         EnemyPathFinding.OnEndReached += HandleEnemyDeath;
 
         foreach (var enemyPrefab in enemyPrefabs)
