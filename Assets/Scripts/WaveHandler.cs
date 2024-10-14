@@ -1,29 +1,89 @@
 using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
+using TMPro;
 using UnityEngine;
 
 public class WaveHandler : MonoBehaviour
 {
+    [SerializeField] private TMP_Text waveIndexTMPText; 
     [SerializeField] private EnemyPath enemyPath;
-    [SerializeField] private GameObject[] enemies;
-
+    [SerializeField] private GameObject[] enemyPrefabs; 
+    [SerializeField] private float[] enemyWeights; 
+    [SerializeField] private int[] enemyUnlockIndexes;
+    
+    [SerializeField]private List<GameObject> spawnedEnemies; 
+    [SerializeField]private int[] enemiesToSpawn; 
+    [SerializeField]private float waveMaxWeight,
+                  waveWeight = 0;
+    [SerializeField]private int unlocktEnemies,
+                waveIndex,
+                unlockEnemyWaveIndex;
+    
     private void Start()
     {
-        foreach (var enemy in enemies)
+        spawnedEnemies = new List<GameObject>();
+        
+        Enemy.onEnemyDeath += HandleEnemyDeath;
+        EnemyPathFinding.OnEndReached += HandleEnemyDeath;
+
+        foreach (var enemyPrefab in enemyPrefabs)
         {
-            EnemyPathFinding enemyPathFinding = enemy.GetComponent<EnemyPathFinding>();
+            EnemyPathFinding enemyPathFinding = enemyPrefab.GetComponent<EnemyPathFinding>();
             enemyPathFinding.enemyPath = enemyPath;
         }
-        
-        StartCoroutine(WaveSpawner());
     }
 
-    private IEnumerator WaveSpawner()
+    private void SpawnNextWave()
     {
-        while (true)
+        if (waveIndex == unlockEnemyWaveIndex)
         {
-            yield return new WaitForSeconds(1);
-            Instantiate(enemies[0]);
+            unlocktEnemies++;
+            unlockEnemyWaveIndex = enemyUnlockIndexes[unlocktEnemies];
         }
+        
+        waveIndex++;
+        waveMaxWeight++;
+        waveIndexTMPText.text = $"Wave: {waveIndex}";
+        CalculateWave();
+        StartCoroutine( SpawnWave());
+    }
+
+    private void CalculateWave()
+    {
+        waveWeight = 0;
+        enemiesToSpawn = new int[enemyPrefabs.Length];
+
+        while (waveWeight < waveMaxWeight)
+        {
+            int i = Mathf.FloorToInt(Random.Range(0, unlocktEnemies));
+            enemiesToSpawn[i]++;
+            waveWeight += enemyWeights[i];
+        }
+    }
+
+    private IEnumerator SpawnWave()
+    {
+        for (int i = 0; i < enemiesToSpawn.Length; i++)
+        {
+            for (int j = 0; j < enemiesToSpawn[i]; j++)
+            {
+                GameObject spawnedEnemy = Instantiate(enemyPrefabs[i]);
+                spawnedEnemies.Add(spawnedEnemy);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+    }
+
+    private void HandleEnemyDeath(GameObject gameObject)
+    {
+        spawnedEnemies.Remove(gameObject);
+        if (spawnedEnemies.Count <= 0) SpawnNextWave();
+    }
+
+    public void StartFirstWave(GameObject gameObject)
+    {
+        SpawnNextWave();
+        gameObject.SetActive(false);
     }
 }

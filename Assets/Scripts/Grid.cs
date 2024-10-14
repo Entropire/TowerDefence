@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour
 
     [SerializeField] private EnemyPath enemyPath;
     [SerializeField] private Vector2Int cellSize;
-    [SerializeField] private Texture2D[] textures;  // List of textures for the cells
+    [SerializeField] private Texture2D[] textures; 
     [SerializeField] private SpriteRenderer spriteRenderer; 
     
     private float cellSpacing;
@@ -102,42 +102,29 @@ public class Grid : MonoBehaviour
     
     private void RenderGrid()
     {
-        // Get the size of individual textures (assuming all are the same size)
         int cellWidth = textures[0].width;
         int cellHeight = textures[0].height;
-            
-        // Create a new combined texture with the size of the entire grid
+        
         Texture2D combinedTexture = new Texture2D(cellWidth * gridSize.x, cellHeight * gridSize.y);
         
-        Debug.Log($"grass_image width: {textures[0].width}, grass_image height: {textures[0].height}, path_image width: {textures[0].width}, path_image height: {textures[0].height}");
-        
-        // Loop through the grid and place each texture at its correct position
         for (int y = 0; y < gridSize.y; y++)
         {
             for (int x = 0; x < gridSize.x; x++)
             {
-                // Get the texture for the current grid cell based on textureID
                 Texture2D texture2D = textures[grid[y][x].textureID];
-
-                // Get the pixel data of the current texture
+                
                 Color[] pixels = texture2D.GetPixels();
 
-                // Set the pixels in the correct position (adjust Y to match Unity's bottom-left origin)
                 combinedTexture.SetPixels(x * cellWidth, y * cellHeight, cellWidth, cellHeight, pixels);
             }
         }
-
-        // Apply the changes to the combined texture
+        
         combinedTexture.Apply();
 
-        Debug.Log($"Height: {combinedTexture.height}, Width: {combinedTexture.width}");
-            
-        // Create a new sprite from the combined texture
         Sprite combinedSprite = Sprite.Create(combinedTexture, 
             new Rect(0, 0, combinedTexture.width, combinedTexture.height), 
             new Vector2(0.5f, 0.5f));
-
-        // Set the combined sprite to the sprite renderer
+        
         spriteRenderer.sprite = combinedSprite;
     }
 }

@@ -1,8 +1,11 @@
+using System;
 using DefaultNamespace;
 using UnityEngine;
 
 public class EnemyPathFinding : MonoBehaviour
 {
+    public static event Action<GameObject> OnEndReached;
+    
     public EnemyPath enemyPath;
     private Vector2 target;
     private int pathIndex;
@@ -22,6 +25,7 @@ public class EnemyPathFinding : MonoBehaviour
         if ((Vector2)transform.position == target && pathIndex == enemyPath.path.Count - 1)
         {
             Destroy(gameObject);
+            OnEndReached?.Invoke(gameObject);
         }
         else if ((Vector2)transform.position == target)
         {
