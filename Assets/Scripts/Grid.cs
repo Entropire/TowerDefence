@@ -20,7 +20,7 @@ public class Grid : MonoBehaviour
     private void Start()
     {
         float cameraHeight = 2f * Camera.main.orthographicSize;
-        float cameraWidth = cameraHeight * Camera.main.aspect;
+        float cameraWidth = cameraHeight * Camera.main.aspect - 2;
         
         int gridHeight = (int)math.ceil(cameraHeight / cellSize.y);
         int gridWidth = (int)math.ceil(cameraWidth / cellSize.x);
