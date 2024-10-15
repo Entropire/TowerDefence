@@ -6,8 +6,8 @@ public class TowerShootSystem : MonoBehaviour
     [SerializeField] private float shootCooldown;
     [SerializeField] private GameObject projectilePrefab;
     
-    [SerializeField] private List<GameObject> enemiesInRange;
-    [SerializeField] private float cooldownTimer;
+    private List<GameObject> enemiesInRange;
+    private float cooldownTimer;
     
     void Start()
     {
@@ -23,6 +23,11 @@ public class TowerShootSystem : MonoBehaviour
             if (projectile.TryGetComponent(out ProjectileMovement projectileMovement))
             {
                 projectileMovement.target = enemiesInRange[0];
+            }
+
+            if (projectile.TryGetComponent(out ProjectileDamage projectileDamage))
+            {
+                projectileDamage.target = enemiesInRange[0];
             }
         }
 
@@ -43,7 +48,7 @@ public class TowerShootSystem : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" && enemiesInRange.Contains(other.gameObject))
         {
             enemiesInRange.Remove(other.gameObject);
         }

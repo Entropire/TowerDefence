@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class TowerPlacing : MonoBehaviour
 {
-    public static event Action OnTowerSelected;
-    public static event Action OnTowerDeselected;
+    public static event Action<int> OnTowerSelected;
+    public static event Action<int> OnTowerDeselected;
     
     [SerializeField] private Grid grid;
+    [SerializeField] private GameObject[] towerPrefabs;
     
     private Camera mainCamera;
     private GameObject selectedTower;
@@ -46,7 +47,7 @@ public class TowerPlacing : MonoBehaviour
             cellData.TowerData = new TowerData(selectedTower);
             selectedTower.transform.position = cellData.position;
             selectedTower = null;
-            OnTowerDeselected?.Invoke();        
+            OnTowerDeselected?.Invoke(Array.IndexOf(towerPrefabs, selectedTower));        
         }
     }
     
@@ -54,13 +55,13 @@ public class TowerPlacing : MonoBehaviour
     {
         Destroy(selectedTower);
         selectedTower = null;
-        OnTowerDeselected?.Invoke();
+        OnTowerDeselected?.Invoke(Array.IndexOf(towerPrefabs, selectedTower));
     }
 
-    public void SelectTower(GameObject tower)
+    public void SelectTower(int towerIndex)
     {
-        selectedTower = Instantiate(tower);
-        selectedTower.name = tower.name;
-        OnTowerSelected?.Invoke();
+        selectedTower = Instantiate(towerPrefabs[towerIndex]);
+        selectedTower.name = towerPrefabs[towerIndex].name;
+        OnTowerSelected?.Invoke(towerIndex);
     }
 }

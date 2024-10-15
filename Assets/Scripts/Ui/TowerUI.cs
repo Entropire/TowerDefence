@@ -33,7 +33,7 @@ public class TowerUI : MonoBehaviour
                 
                 CellData cellData = grid.GetClosestCell(mousePos);
 
-                if (cellData.occupied)
+                if (cellData.occupied && cellData.TowerData != null)
                 {
                     OpenTowerUI(cellData.TowerData);
                 }

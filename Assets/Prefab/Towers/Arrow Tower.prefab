@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -1023015305612471495}
   - component: {fileID: 1025281264000152477}
   m_Layer: 0
-  m_Name: Tower 1
+  m_Name: Arrow Tower
   m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,10 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22915c5eaf84b5f428dfc077d74be854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootCooldown: 2
+  shootCooldown: 0.5
   projectilePrefab: {fileID: 368326473569416218, guid: 63a76fb3aa169094ea8e1f9d3bfd5fdc, type: 3}
-  enemiesInRange: []
-  cooldownTimer: 0
 --- !u!50 &-1023015305612471495
 Rigidbody2D:
   serializedVersion: 4

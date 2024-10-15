@@ -3,7 +3,6 @@ using UnityEngine;
 public class ProjectileMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private int damage;
     
     public GameObject target;
     
@@ -17,19 +16,6 @@ public class ProjectileMovement : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("test");
-        if (other.gameObject == target)
-        {
-            if (other.TryGetComponent(out EnemyHealth enemyData))
-            {
-                enemyData.Health -= damage;
-                Destroy(gameObject);
-            }
         }
     }
 }
