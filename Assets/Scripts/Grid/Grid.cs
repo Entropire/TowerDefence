@@ -30,7 +30,7 @@ public class Grid : MonoBehaviour
         GenerateEnemyPath();
         cellSpacing = Vector2.Distance(grid[0][0].position, grid[0][1].position);
         
-        MakeImagesReadeble();
+        //MakeImagesReadeble();
         RenderGrid();
     }
 
@@ -86,7 +86,7 @@ public class Grid : MonoBehaviour
         return closestCellData;
     }
 
-    private void MakeImagesReadeble()
+    /*private void MakeImagesReadeble()
     {
         foreach (var texture in textures)
         {
@@ -98,7 +98,7 @@ public class Grid : MonoBehaviour
                 AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
             }
         }
-    }
+    }*/
     
     private void RenderGrid()
     {

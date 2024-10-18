@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
 public class TowerUI : MonoBehaviour
 {
+    [SerializeField] private Money money;
     [SerializeField] private Grid grid;
     [SerializeField] private GameObject towerUI;
     [SerializeField] private RectTransform towerUIContainer;
@@ -85,6 +87,18 @@ public class TowerUI : MonoBehaviour
 
     public void RemoveTower(GameObject tower)
     {
+        int towerIndex = 0;
+
+        switch (gameObject.name)
+        {
+            case "Arrow Tower": towerIndex = 0; break;
+            case "Ice Tower": towerIndex = 1; break;
+            case "Poison Tower": towerIndex = 2; break;
+            case "Fire Tower": towerIndex = 3; break;
+            case "Lightning Spire": towerIndex = 4; break;
+        }
+        
+        money.SellTower(towerIndex);
         CellData cellData = grid.GetClosestCell(tower.transform.position);
         cellData.occupied = false;
         cellData.TowerData = null;

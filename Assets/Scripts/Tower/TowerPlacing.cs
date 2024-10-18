@@ -1,16 +1,19 @@
 using System;
+using DefaultNamespace;
 using UnityEngine;
 
 public class TowerPlacing : MonoBehaviour
 {
-    public static event Action<int> OnTowerSelected;
-    public static event Action<int> OnTowerDeselected;
+    public static event Action OnTowerSelected;
+    public static event Action OnTowerDeselected;
     
     [SerializeField] private Grid grid;
+    [SerializeField] private Money money;
     [SerializeField] private GameObject[] towerPrefabs;
     
     private Camera mainCamera;
     private GameObject selectedTower;
+    private int selectedTowerIndex;
     
     private void Start()
     {
@@ -47,21 +50,28 @@ public class TowerPlacing : MonoBehaviour
             cellData.TowerData = new TowerData(selectedTower);
             selectedTower.transform.position = cellData.position;
             selectedTower = null;
-            OnTowerDeselected?.Invoke(Array.IndexOf(towerPrefabs, selectedTower));        
+            OnTowerDeselected?.Invoke();        
         }
     }
     
     private void DeleteTower()
     {
+        money.RefundTower(selectedTowerIndex);
+        selectedTowerIndex = -1;
         Destroy(selectedTower);
         selectedTower = null;
-        OnTowerDeselected?.Invoke(Array.IndexOf(towerPrefabs, selectedTower));
+        OnTowerDeselected?.Invoke();
     }
 
     public void SelectTower(int towerIndex)
     {
-        selectedTower = Instantiate(towerPrefabs[towerIndex]);
-        selectedTower.name = towerPrefabs[towerIndex].name;
-        OnTowerSelected?.Invoke(towerIndex);
+        if (money.BuyTower(towerIndex))
+        {
+            selectedTowerIndex = towerIndex;
+            selectedTower = Instantiate(towerPrefabs[towerIndex]);
+            selectedTower.name = towerPrefabs[towerIndex].name;
+            OnTowerSelected?.Invoke();
+        }
+  
     }
 }

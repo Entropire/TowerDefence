@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
+  spriteRenderer: {fileID: 4542676952436805524}
 --- !u!61 &-6874952568693196034
 BoxCollider2D:
   m_ObjectHideFlags: 0

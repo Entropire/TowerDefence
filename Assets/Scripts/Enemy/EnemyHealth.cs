@@ -17,7 +17,6 @@ public class EnemyHealth : MonoBehaviour
         health -= damage;
         float procentHealth = (float)health / maxHealth;
         procentHealth = procentHealth < 0 ? 0 : procentHealth;
-        Debug.Log($"health: {health}, maxhealth: {maxHealth}, procentHealth: {procentHealth}");
         spriteRenderer.color = Color.Lerp(Color.red, Color.green, procentHealth);
         if (health <= 0)
         {
