@@ -36,7 +36,7 @@ public class WaveHandler : MonoBehaviour
 
     private void SpawnNextWave()
     {
-        if (waveIndex == unlockEnemyWaveIndex)
+        if (waveIndex == unlockEnemyWaveIndex && unlocktEnemies < enemyUnlockIndexes.Length)
         {
             unlocktEnemies++;
             unlockEnemyWaveIndex = enemyUnlockIndexes[unlocktEnemies];

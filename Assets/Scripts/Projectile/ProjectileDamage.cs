@@ -42,7 +42,7 @@ public class ProjectileDamage : MonoBehaviour
             if (other.TryGetComponent(out EnemyHealth enemyData))
             {
                 enemyData.TakeDamege(damage); 
-                if(radiusDamage != 0)  DealAreaDamage();
+                //if(radiusDamage != 0)  DealAreaDamage();
                 if(effect) AddEffectToTarget();
                 Destroy(gameObject);
             }

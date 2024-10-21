@@ -11,13 +11,13 @@ public class Health : MonoBehaviour
     private void Start()
     {
         EnemyPathFinding.OnEndReached += HandleDamageEvent;
-        healthText.text = $"Heath: {health}";
+        healthText.text = $"Health: {health}";
     }
 
     private void HandleDamageEvent(GameObject gameObject)
     {
         health--;
-        healthText.text = $"Heath: {health}";
+        healthText.text = $"Health: {health}";
         
         if (health <= 0)
         {

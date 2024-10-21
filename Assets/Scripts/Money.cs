@@ -42,13 +42,13 @@ public class Money : MonoBehaviour
     public void RefundTower(int i)
     {
         money += towerCosts[i];
-        moneyText.text = $"Moeny: {money}";
+        moneyText.text = $"Money: {money}";
     }
 
     public void HandleEnemyDeathEvent(GameObject enemy)
     {
 
-        int enemyIndex = 0; 
+        int enemyIndex = 0;
 
         for (int i = 0; i < enemyNameList.Length; i++)
         {
@@ -58,10 +58,7 @@ public class Money : MonoBehaviour
                 break;
             }
         }
-
-        Debug.LogWarning(enemyIndex);
-        
         money += EnemieWorth[enemyIndex];
-        moneyText.text = $"Moeny: {money}";
+        moneyText.text = $"Money: {money}";
     }
 }
