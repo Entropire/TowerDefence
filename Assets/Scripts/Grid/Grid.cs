@@ -30,7 +30,6 @@ public class Grid : MonoBehaviour
         GenerateEnemyPath();
         cellSpacing = Vector2.Distance(grid[0][0].position, grid[0][1].position);
         
-        //MakeImagesReadeble();
         RenderGrid();
     }
 
@@ -85,20 +84,6 @@ public class Grid : MonoBehaviour
         }
         return closestCellData;
     }
-
-    /*private void MakeImagesReadeble()
-    {
-        foreach (var texture in textures)
-        {
-            string assetPath = AssetDatabase.GetAssetPath(texture);
-            TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(assetPath);
-            if (textureImporter != null)
-            {
-                textureImporter.isReadable = true;
-                AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
-            }
-        }
-    }*/
     
     private void RenderGrid()
     {

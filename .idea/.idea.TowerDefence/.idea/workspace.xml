@@ -138,6 +138,7 @@
       <workItem from="1728978142215" duration="567000" />
       <workItem from="1728978810290" duration="11901000" />
       <workItem from="1729235602187" duration="2818000" />
+      <workItem from="1729498176480" duration="2000" />
     </task>
     <servers />
   </component>
@@ -160,14 +161,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyHealth.cs</url>
           <line>21</line>
-          <properties documentPath="C:\Users\Quinten\Desktop\Projects\Unity\TowerDefence\Assets\Scripts\Enemy\EnemyHealth.cs" containingFunctionPresentation="Method 'TakeDamege'">
-            <startOffsets>
-              <option value="597" />
-            </startOffsets>
-            <endOffsets>
-              <option value="598" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\Quinten\Desktop\Projects\Unity\TowerDefence\Assets\Scripts\Enemy\EnemyHealth.cs" containingFunctionPresentation="Method 'TakeDamege'" />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
