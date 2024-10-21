@@ -18,7 +18,7 @@ Dit is de [ROOT](https://github.com/Entropire/TowerDefence/tree/main) folder van
 none
 
 ## Product 7: Class Diagram voor volledige codebase
-![class diagram](https://github.com/Entropire/TowerDefence/blob/main/github/What.png)
+![class diagram](https://github.com/Entropire/TowerDefence/blob/main/github/what.png)
 
 ## Product 8: Prototype test video
 ![GamePlay gif](https://github.com/Entropire/TowerDefence/blob/main/github/GamePlay.gif)
