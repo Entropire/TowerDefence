@@ -27,4 +27,4 @@ none
 Dit is de [Trello board](https://trello.com/b/4DAYtM2p/bo-21) van mijn unity project.
 
 ## Product 10: Gitflow conventions
-[gitflow](https://github.com/Entropire/TowerDefence/network)
+[gitflow](https://github.com/Entropire/Conventions/blob/Master/Conventions/GitFlowConventions.md)
